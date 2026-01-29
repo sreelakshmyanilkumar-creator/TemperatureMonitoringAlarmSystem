@@ -26,21 +26,25 @@
 
 //******************************* Local Functions ******************************
 
-//********************************.SensorRead.****************************************
+//********************************.SensorRead.**********************************
 //Purpose : To read the temperature value from sensor
-//Inputs  : Directory in the PC from which we need to read files as CLA
-//Outputs : None
+//Inputs  : None
+//Outputs : pcTempValue - Read temperature value
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool SensorRead(int8_t *pscTempValue)
+bool SensorRead(int8_t *pcTempValue)
 {
     bool blRet = false;
-
-    *pscTempValue = (rand() % (TEMP_THRESHOLD_MAX - (TEMP_THRESHOLD_MIN) + 
+    
+    *pcTempValue = (rand() % (TEMP_THRESHOLD_MAX - (TEMP_THRESHOLD_MIN) + 
                     RANGE_ADJUST)) + (TEMP_THRESHOLD_MIN);
 
-    blRet = true;
+    //Comparing with assumed sensor max and min values
+    if(*pcTempValue > TEMP_SENSOR_MIN || *pcTempValue < TEMP_SENSOR_MAX)
+    {
+        blRet = true;
+    }
 
     return blRet;
 }

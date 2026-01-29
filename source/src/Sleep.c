@@ -26,7 +26,7 @@
 
 //******************************* Local Functions ******************************
 
-//********************************.msleep.****************************************
+//********************************.msleep.**************************************
 //Purpose : To generate a sleep function in milliseconds.
 //Inputs  : ucTimeInMilliSeconds - time in milliseconds
 //Outputs : None

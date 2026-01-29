@@ -3,15 +3,15 @@
 //  All Rights Reserved 
 //******************************************************************************
 //
-// File     : MessageQueue.h
-// Summary  : To create, send, receive message queue
+// File     : Semaphore.h
+// Summary  : Wrapper functions for semaphore
 // Note     : None
 // Author   : Sreelakshmy M.A.
-// Date     : 28/01/2026
+// Date     : 29/01/2026
 //
 //******************************************************************************
-#ifndef _MESSAGE_QUEUE_H_ 
-#define _MESSAGE_QUEUE_H_
+#ifndef _SEMAPHORE_H_ 
+#define _SEMAPHORE_H_
 
 //******************************* Include Files ********************************
 #include <stdio.h>
@@ -21,16 +21,13 @@
 //******************************* Global Types *********************************
 
 //***************************** Global Constants *******************************
-#define PERMISSION_MASK         (0666)
-#define MSG_QUEUE_MAX_MESSAGES  (10)
-#define MSG_QUEUE_MAX_MSG_SIZE  (sizeof(int8_t))
-#define QUEUE_NAME              "/tempqueue"
+extern sem_t lAlarmSemFlag;
 
 //***************************** Global Variables *******************************
 
 //**************************** Forward Declarations ****************************
-bool MessageQueueCreate();
-bool MessageQueueSend(int8_t *pcMessageQueueData, size_t lMsgQSize);
-bool MessageQueueReceive(int8_t *pcMessageQueueData, size_t lMsgQSize);
-#endif //_MESSAGE_QUEUE_H_
+bool SemaphoreInit();
+bool SemaphorePost(sem_t *lAlarmSemFlag);
+bool SemaphoreWait(sem_t *lAlarmSemFlag);
+#endif //_SEMAPHORE_H_
 //EOF

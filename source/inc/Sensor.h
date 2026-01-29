@@ -25,9 +25,13 @@
 #define TEMP_THRESHOLD_MIN  (-10)
 #define RANGE_ADJUST        (1)
 
+//Assume sensor reads in this range
+#define TEMP_SENSOR_MAX     (125) 
+#define TEMP_SENSOR_MIN     (-40)
+
 //***************************** Global Variables *******************************
 
 //**************************** Forward Declarations ****************************
-bool SensorRead(int8_t *pscTempValue);
+bool SensorRead(int8_t *pcTempValue);
 #endif //_SENSOR_H_
 //EOF

@@ -3,34 +3,34 @@
 //  All Rights Reserved 
 //******************************************************************************
 //
-// File     : MessageQueue.h
-// Summary  : To create, send, receive message queue
+// File     : Alarm.h
+// Summary  : To receive alarm trigger and process it
 // Note     : None
 // Author   : Sreelakshmy M.A.
-// Date     : 28/01/2026
+// Date     : 29/01/2026
 //
 //******************************************************************************
-#ifndef _MESSAGE_QUEUE_H_ 
-#define _MESSAGE_QUEUE_H_
+#ifndef _ALARM_H_ 
+#define _ALARM_H_
 
 //******************************* Include Files ********************************
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <pthread.h>
+#include <semaphore.h>
 
 //******************************* Global Types *********************************
 
 //***************************** Global Constants *******************************
-#define PERMISSION_MASK         (0666)
-#define MSG_QUEUE_MAX_MESSAGES  (10)
-#define MSG_QUEUE_MAX_MSG_SIZE  (sizeof(int8_t))
-#define QUEUE_NAME              "/tempqueue"
+extern sem_t AlarmFlag;
 
 //***************************** Global Variables *******************************
 
 //**************************** Forward Declarations ****************************
-bool MessageQueueCreate();
-bool MessageQueueSend(int8_t *pcMessageQueueData, size_t lMsgQSize);
-bool MessageQueueReceive(int8_t *pcMessageQueueData, size_t lMsgQSize);
-#endif //_MESSAGE_QUEUE_H_
+void* AlarmThread(void *arg);
+bool InitializeAlarmSemaphore();
+bool AlarmSemaphoreWait(sem_t *lAlarmSemFlag);
+bool AlarmSemaphorePost(sem_t *lAlarmSemFlag);
+#endif //_ALARM_H_
 //EOF

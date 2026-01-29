@@ -34,24 +34,24 @@
 
 //********************************.TempReadThread.******************************
 //Purpose : To read temperature data from sensor and 
-//Inputs  : Directory in the PC from which we need to read files as CLA
+//Inputs  : None
 //Outputs : None
 //Return  : None
 //Notes   : None
 //*
 void* TempReadThread(void *arg)
 {
-    int8_t scTempValue = 0;
+    int8_t cTempValue = 0;
     (void)arg;
 
     while(1)
     {
-        if(ReadTemp(&scTempValue) != false)
+        if(ReadTemp(&cTempValue) != false)
         {
-            if(TempCheckMessageQueueSend(&scTempValue, MSG_QUEUE_MAX_MSG_SIZE) 
+            if(TempCheckMessageQueueSend(&cTempValue, MSG_QUEUE_MAX_MSG_SIZE) 
                                         != false)
             {
-                printf("Message send successfully, Data = %d\n", scTempValue);
+                printf("Message send successfully, Data = %d\n", cTempValue);
             }
         }
 
@@ -68,13 +68,13 @@ void* TempReadThread(void *arg)
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool ReadTemp(int8_t *pscTempValue)
+bool ReadTemp(int8_t *pcTempValue)
 {
     bool blRet = false;
 
-    if(pscTempValue != NULL)
+    if(pcTempValue != NULL)
     {
-        blRet = SensorRead(pscTempValue);
+        blRet = SensorRead(pcTempValue);
     }
 
     return blRet;

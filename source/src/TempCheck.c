@@ -18,6 +18,9 @@
 #include <stdbool.h>
 #include "MessageQueue.h"
 #include "TempCheck.h"
+#include "Sensor.h"
+#include "Alarm.h"
+#include "Semaphore.h"
 
 //******************************* Local Types **********************************
 
@@ -37,17 +40,24 @@
 //*
 void* TempCheckThread(void *arg)
 {
-    int8_t scTempValue = 0;
+    int8_t cTempValue = 0;
+    static uint8_t sucThresholdBreachCount = 0;
     (void)arg;
 
     TempCheckMessageQueueCreate();
 
     while(1)
     {
-        if(TempCheckMessageQueueReceive(&scTempValue, 
+        if(TempCheckMessageQueueReceive(&cTempValue, 
                                         MSG_QUEUE_MAX_MSG_SIZE) != false)
         {
-            printf("Message Received successfully, Data = %d\n",scTempValue);
+            printf("Message Received successfully, Data = %d\n",cTempValue);
+
+            if(TempCheckForThresholds(&cTempValue, &sucThresholdBreachCount) 
+                                        != false)
+            {
+                AlarmSemaphorePost(&lAlarmSemFlag);
+            }
         }
     }
 
@@ -55,8 +65,7 @@ void* TempCheckThread(void *arg)
 }
 
 //*************************.TempCheckMessageQueueCreate.************************
-//Purpose : Thread function to check the temperature value against the minimum
-//          and maximum thresholds and trigger the alarm if breach happens
+//Purpose : To create message queue
 //Inputs  : None
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
@@ -75,21 +84,20 @@ bool TempCheckMessageQueueCreate()
 }
 
 //***************************.TempCheckMessageQueueSend.************************
-//Purpose : Thread function to check the temperature value against the minimum
-//          and maximum thresholds and trigger the alarm if breach happens
+//Purpose : To send data via message queue
 //Inputs  : pstMsgQTempData - Data to be send in message queue
 //          lMsgQSize - message queue size
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool TempCheckMessageQueueSend(int8_t *pscMsgQTempData, size_t lMsgQSize)
+bool TempCheckMessageQueueSend(int8_t *pcMsgQTempData, size_t lMsgQSize)
 {
     bool blRet = false;
 
-    if(pscMsgQTempData != NULL)
+    if(pcMsgQTempData != NULL)
     {
-        if(MessageQueueSend(pscMsgQTempData, lMsgQSize) != false)
+        if(MessageQueueSend(pcMsgQTempData, lMsgQSize) != false)
         {
             blRet = true;
         }
@@ -99,18 +107,49 @@ bool TempCheckMessageQueueSend(int8_t *pscMsgQTempData, size_t lMsgQSize)
 }
 
 //************************.TempCheckMessageQueueReceive.************************
-//Purpose : Thread function to check the temperature value against the minimum
-//          and maximum thresholds and trigger the alarm if breach happens
+//Purpose : To receive data via message queue
 //Inputs  : lMsgQSize - message queue size
 //Outputs : pscMsgQTempData - to receieve data from message queue
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool TempCheckMessageQueueReceive(int8_t *pscMsgQTempData, size_t lMsgQSize)
+bool TempCheckMessageQueueReceive(int8_t *pcMsgQTempData, size_t lMsgQSize)
 {
     bool blRet = false;
 
-    if(MessageQueueReceive(pscMsgQTempData , lMsgQSize) != false)
+    if(MessageQueueReceive(pcMsgQTempData , lMsgQSize) != false)
+    {
+        blRet = true;
+    }
+
+    return blRet;
+}
+
+//************************.TempCheckForThresholds.************************
+//Purpose : To compare the read value with thresholds and find out 5 consecutive
+//          breaches
+//Inputs  : pcMsgQTempData - Read temperature value
+//Outputs : psucThresholdBreachCount - breach count is incremented for every 
+//          breach
+//Return  : Boolean value - Upon success it will return true , else false
+//Notes   : None
+//*
+bool TempCheckForThresholds(int8_t *pcMsgQTempData, 
+                            uint8_t *psucThresholdBreachCount)
+{
+    bool blRet = false;
+
+    if(*pcMsgQTempData < TEMP_THRESHOLD_MIN || 
+        *pcMsgQTempData > TEMP_THRESHOLD_MAX)
+    {
+        (*psucThresholdBreachCount)++;
+    }
+    else
+    {
+        *psucThresholdBreachCount = 0;
+    }
+
+    if(*psucThresholdBreachCount > MAX_BREACH_COUNT)
     {
         blRet = true;
     }

@@ -20,6 +20,7 @@
 #include "Thread.h"
 #include "TempRead.h"
 #include "TempCheck.h"
+#include "Alarm.h"
 
 //******************************* Local Types **********************************
 
@@ -27,7 +28,8 @@
 
 //******************************* Local Variables ******************************
 THREAD_HANDLER ThreadHandler[] = {{0, TempReadThread},
-                                  {0, TempCheckThread}
+                                  {0, TempCheckThread},
+                                  {0, AlarmThread}
                                  };
 
 //******************************* Local Functions ******************************
@@ -45,6 +47,7 @@ bool CreateThreads()
     uint8_t ucMaxThreadCount = 0;
     ucMaxThreadCount = sizeof(ThreadHandler)/sizeof(ThreadHandler[0]);
 
+    //To create threads
     for (uint8_t ucindex = 0; ucindex < ucMaxThreadCount; ucindex++)
     {
         if(pthread_create(&ThreadHandler[ucindex].lThreadId, NULL, 
@@ -54,6 +57,7 @@ bool CreateThreads()
         }
     }
 
+    //To join threads
     for (uint8_t ucindex = 0; ucindex < ucMaxThreadCount; ucindex++) 
     {
         if(pthread_join(ThreadHandler[ucindex].lThreadId, NULL) == 0)

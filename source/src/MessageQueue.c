@@ -70,11 +70,11 @@ bool MessageQueueCreate()
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool MessageQueueSend(int8_t *pscMessageQueueData, size_t lMsgQSize)
+bool MessageQueueSend(int8_t *pcMessageQueueData, size_t lMsgQSize)
 {
     bool blRet = false;
 
-    if(pscMessageQueueData != NULL)
+    if(pcMessageQueueData != NULL)
     {
         mqd_t lTempMsgQueue = mq_open(QUEUE_NAME, O_WRONLY);
         
@@ -84,7 +84,7 @@ bool MessageQueueSend(int8_t *pscMessageQueueData, size_t lMsgQSize)
         }
         else
         {
-            if (mq_send(lTempMsgQueue, (char*)pscMessageQueueData, 
+            if (mq_send(lTempMsgQueue, (char*)pcMessageQueueData, 
                         lMsgQSize, 0) == -1) 
             { 
                 printf("mq_send failed"); 
@@ -108,7 +108,7 @@ bool MessageQueueSend(int8_t *pscMessageQueueData, size_t lMsgQSize)
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool MessageQueueReceive(int8_t *pscMessageQueueData, size_t lMsgQSize)
+bool MessageQueueReceive(int8_t *pcMessageQueueData, size_t lMsgQSize)
 {
     bool blRet = false;
 
@@ -119,7 +119,7 @@ bool MessageQueueReceive(int8_t *pscMessageQueueData, size_t lMsgQSize)
         printf("Producer mq_open failed");
     }
 
-    if (mq_receive(lTempMsgQueue, (char*)pscMessageQueueData, lMsgQSize, 
+    if (mq_receive(lTempMsgQueue, (char*)pcMessageQueueData, lMsgQSize, 
         NULL) == -1)
     {
         printf("mq_receive failed");
