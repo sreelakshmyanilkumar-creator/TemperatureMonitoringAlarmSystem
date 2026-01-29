@@ -29,19 +29,19 @@
 //********************************.SensorRead.**********************************
 //Purpose : To read the temperature value from sensor
 //Inputs  : None
-//Outputs : pcTempValue - Read temperature value
+//Outputs : pucTempValue - Read temperature value
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool SensorRead(int8_t *pcTempValue)
+bool SensorRead(uint8_t *pucTempValue)
 {
     bool blRet = false;
     
-    *pcTempValue = (rand() % (TEMP_THRESHOLD_MAX - (TEMP_THRESHOLD_MIN) + 
+    *pucTempValue = (rand() % (TEMP_THRESHOLD_MAX - (TEMP_THRESHOLD_MIN) + 
                     RANGE_ADJUST)) + (TEMP_THRESHOLD_MIN);
 
     //Comparing with assumed sensor max and min values
-    if(*pcTempValue > TEMP_SENSOR_MIN || *pcTempValue < TEMP_SENSOR_MAX)
+    if(*pucTempValue > TEMP_SENSOR_MIN || *pucTempValue < TEMP_SENSOR_MAX)
     {
         blRet = true;
     }

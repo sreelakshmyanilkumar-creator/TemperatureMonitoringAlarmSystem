@@ -39,19 +39,20 @@
 //Return  : None
 //Notes   : None
 //*
-void* TempReadThread(void *arg)
+void* TempReadThread(void *pArg)
 {
-    int8_t cTempValue = 0;
-    (void)arg;
+    uint8_t ucTempValue = 0;
+    (void)pArg;
 
     while(1)
     {
-        if(ReadTemp(&cTempValue) != false)
+        if(ReadTemp(&ucTempValue) != false)
         {
-            if(TempCheckMessageQueueSend(&cTempValue, MSG_QUEUE_MAX_MSG_SIZE) 
+            if(TempCheckMessageQueueSend(&ucTempValue, MSG_QUEUE_MAX_MSG_SIZE) 
                                         != false)
             {
-                printf("Message send successfully, Data = %d\n", cTempValue);
+                printf("Message send successfully, Data = %d\n", 
+                        (int8_t)ucTempValue);
             }
         }
 
@@ -64,17 +65,17 @@ void* TempReadThread(void *arg)
 //********************************.ReadTemp.************************************
 //Purpose : To read temperature data from sensor
 //Inputs  : None
-//Outputs : pscTempValue - Update temperature sensor value
+//Outputs : pucTempValue - Update temperature sensor value
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool ReadTemp(int8_t *pcTempValue)
+bool ReadTemp(uint8_t *pucTempValue)
 {
     bool blRet = false;
 
-    if(pcTempValue != NULL)
+    if(pucTempValue != NULL)
     {
-        blRet = SensorRead(pcTempValue);
+        blRet = SensorRead(pucTempValue);
     }
 
     return blRet;

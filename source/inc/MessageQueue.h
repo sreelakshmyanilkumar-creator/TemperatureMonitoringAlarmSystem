@@ -23,14 +23,14 @@
 //***************************** Global Constants *******************************
 #define PERMISSION_MASK         (0666)
 #define MSG_QUEUE_MAX_MESSAGES  (10)
-#define MSG_QUEUE_MAX_MSG_SIZE  (sizeof(int8_t))
+#define MSG_QUEUE_MAX_MSG_SIZE  (sizeof(uint8_t))
 #define QUEUE_NAME              "/tempqueue"
 
 //***************************** Global Variables *******************************
 
 //**************************** Forward Declarations ****************************
 bool MessageQueueCreate();
-bool MessageQueueSend(int8_t *pcMessageQueueData, size_t lMsgQSize);
-bool MessageQueueReceive(int8_t *pcMessageQueueData, size_t lMsgQSize);
+bool MessageQueueSend(uint8_t *pucMessageQueueData, size_t lMsgQSize);
+bool MessageQueueReceive(uint8_t *pucMessageQueueData, size_t lMsgQSize);
 #endif //_MESSAGE_QUEUE_H_
 //EOF

@@ -48,16 +48,16 @@ bool SemaphoreInit()
 
 //********************************.SemaphoreWait.*******************************
 //Purpose : main function.
-//Inputs  : lAlarmSemFlag - semaphore flag
+//Inputs  : None
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool SemaphoreWait(sem_t *lAlarmSemFlag)
+bool SemaphoreWait()
 {
     bool blRet = false;
 
-    if(sem_wait(lAlarmSemFlag) == 0)
+    if(sem_wait(&lAlarmSemFlag) == 0)
     {
         blRet = true;
     }
@@ -67,16 +67,16 @@ bool SemaphoreWait(sem_t *lAlarmSemFlag)
 
 //********************************.SemaphorePost.*******************************
 //Purpose : main function.
-//Inputs  : lAlarmSemFlag - semaphore flag
+//Inputs  : None
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool SemaphorePost(sem_t *lAlarmSemFlag)
+bool SemaphorePost()
 {
     bool blRet = false;
 
-    if(sem_post(lAlarmSemFlag) == 0)
+    if(sem_post(&lAlarmSemFlag) == 0)
     {
         blRet = true;
     }

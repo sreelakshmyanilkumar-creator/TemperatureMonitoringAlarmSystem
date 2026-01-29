@@ -29,8 +29,8 @@ extern sem_t AlarmFlag;
 
 //**************************** Forward Declarations ****************************
 void* AlarmThread(void *arg);
-bool InitializeAlarmSemaphore();
-bool AlarmSemaphoreWait(sem_t *lAlarmSemFlag);
-bool AlarmSemaphorePost(sem_t *lAlarmSemFlag);
+bool AlarmSemaphoreInilialize();
+bool AlarmSemaphoreWait();
+bool AlarmSemaphorePost();
 #endif //_ALARM_H_
 //EOF

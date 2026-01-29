@@ -39,8 +39,7 @@
 bool MessageQueueCreate()
 {
     bool blRet = false;
-
-    struct mq_attr stMsgQueueAttr; 
+    struct mq_attr stMsgQueueAttr = {0};
     stMsgQueueAttr.mq_flags = 0;
     stMsgQueueAttr.mq_maxmsg = MSG_QUEUE_MAX_MESSAGES;
     stMsgQueueAttr.mq_msgsize = MSG_QUEUE_MAX_MSG_SIZE;
@@ -70,11 +69,11 @@ bool MessageQueueCreate()
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool MessageQueueSend(int8_t *pcMessageQueueData, size_t lMsgQSize)
+bool MessageQueueSend(uint8_t *pucMessageQueueData, size_t lMsgQSize)
 {
     bool blRet = false;
 
-    if(pcMessageQueueData != NULL)
+    if(pucMessageQueueData != NULL)
     {
         mqd_t lTempMsgQueue = mq_open(QUEUE_NAME, O_WRONLY);
         
@@ -84,7 +83,7 @@ bool MessageQueueSend(int8_t *pcMessageQueueData, size_t lMsgQSize)
         }
         else
         {
-            if (mq_send(lTempMsgQueue, (char*)pcMessageQueueData, 
+            if (mq_send(lTempMsgQueue, (char*)pucMessageQueueData, 
                         lMsgQSize, 0) == -1) 
             { 
                 printf("mq_send failed"); 
@@ -108,7 +107,7 @@ bool MessageQueueSend(int8_t *pcMessageQueueData, size_t lMsgQSize)
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool MessageQueueReceive(int8_t *pcMessageQueueData, size_t lMsgQSize)
+bool MessageQueueReceive(uint8_t *pucMessageQueueData, size_t lMsgQSize)
 {
     bool blRet = false;
 
@@ -119,7 +118,7 @@ bool MessageQueueReceive(int8_t *pcMessageQueueData, size_t lMsgQSize)
         printf("Producer mq_open failed");
     }
 
-    if (mq_receive(lTempMsgQueue, (char*)pcMessageQueueData, lMsgQSize, 
+    if (mq_receive(lTempMsgQueue, (char*)pucMessageQueueData, lMsgQSize, 
         NULL) == -1)
     {
         printf("mq_receive failed");

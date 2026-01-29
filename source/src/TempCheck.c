@@ -38,25 +38,26 @@
 //Return  : None
 //Notes   : None
 //*
-void* TempCheckThread(void *arg)
+void* TempCheckThread(void *pArg)
 {
-    int8_t cTempValue = 0;
+    uint8_t ucTempValue = 0;
     static uint8_t sucThresholdBreachCount = 0;
-    (void)arg;
+    (void)pArg;
 
     TempCheckMessageQueueCreate();
 
     while(1)
     {
-        if(TempCheckMessageQueueReceive(&cTempValue, 
+        if(TempCheckMessageQueueReceive(&ucTempValue, 
                                         MSG_QUEUE_MAX_MSG_SIZE) != false)
         {
-            printf("Message Received successfully, Data = %d\n",cTempValue);
+            printf("Message Received successfully, Data = %d\n",
+                    (int8_t)ucTempValue);
 
-            if(TempCheckForThresholds(&cTempValue, &sucThresholdBreachCount) 
+            if(TempCheckForThresholds(&ucTempValue, &sucThresholdBreachCount) 
                                         != false)
             {
-                AlarmSemaphorePost(&lAlarmSemFlag);
+                AlarmSemaphorePost();
             }
         }
     }
@@ -85,19 +86,19 @@ bool TempCheckMessageQueueCreate()
 
 //***************************.TempCheckMessageQueueSend.************************
 //Purpose : To send data via message queue
-//Inputs  : pstMsgQTempData - Data to be send in message queue
+//Inputs  : pucMsgQTempData - Data to be send in message queue
 //          lMsgQSize - message queue size
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool TempCheckMessageQueueSend(int8_t *pcMsgQTempData, size_t lMsgQSize)
+bool TempCheckMessageQueueSend(uint8_t *pucMsgQTempData, size_t lMsgQSize)
 {
     bool blRet = false;
 
-    if(pcMsgQTempData != NULL)
+    if(pucMsgQTempData != NULL)
     {
-        if(MessageQueueSend(pcMsgQTempData, lMsgQSize) != false)
+        if(MessageQueueSend(pucMsgQTempData, lMsgQSize) != false)
         {
             blRet = true;
         }
@@ -109,15 +110,15 @@ bool TempCheckMessageQueueSend(int8_t *pcMsgQTempData, size_t lMsgQSize)
 //************************.TempCheckMessageQueueReceive.************************
 //Purpose : To receive data via message queue
 //Inputs  : lMsgQSize - message queue size
-//Outputs : pscMsgQTempData - to receieve data from message queue
+//Outputs : pucMsgQTempData - to receieve data from message queue
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool TempCheckMessageQueueReceive(int8_t *pcMsgQTempData, size_t lMsgQSize)
+bool TempCheckMessageQueueReceive(uint8_t *pucMsgQTempData, size_t lMsgQSize)
 {
     bool blRet = false;
 
-    if(MessageQueueReceive(pcMsgQTempData , lMsgQSize) != false)
+    if(MessageQueueReceive(pucMsgQTempData , lMsgQSize) != false)
     {
         blRet = true;
     }
@@ -134,13 +135,13 @@ bool TempCheckMessageQueueReceive(int8_t *pcMsgQTempData, size_t lMsgQSize)
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool TempCheckForThresholds(int8_t *pcMsgQTempData, 
+bool TempCheckForThresholds(uint8_t *pucMsgQTempData, 
                             uint8_t *psucThresholdBreachCount)
 {
     bool blRet = false;
 
-    if(*pcMsgQTempData < TEMP_THRESHOLD_MIN || 
-        *pcMsgQTempData > TEMP_THRESHOLD_MAX)
+    if(*pucMsgQTempData < TEMP_THRESHOLD_MIN || 
+        *pucMsgQTempData > TEMP_THRESHOLD_MAX)
     {
         (*psucThresholdBreachCount)++;
     }

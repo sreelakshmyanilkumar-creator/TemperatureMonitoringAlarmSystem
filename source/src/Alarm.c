@@ -34,28 +34,28 @@
 //Return  : None
 //Notes   : None
 //*
-void* AlarmThread(void *arg)
+void* AlarmThread(void *pArg)
 {
-    (void)arg;
-    InitializeAlarmSemaphore();
+    (void)pArg;
+    AlarmSemaphoreInilialize();
 
     while(1)
     {
-        AlarmSemaphoreWait(&lAlarmSemFlag);
+        AlarmSemaphoreWait();
         printf("Alarm Triggered\n");
     }
 
     return NULL;
 }
 
-//**************************.InitializeAlarmSemaphore.**************************
+//**************************.AlarmSemaphoreInilialize.**************************
 //Purpose : To initialize alarm semaphore
 //Inputs  : None
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool InitializeAlarmSemaphore()
+bool AlarmSemaphoreInilialize()
 {
     bool blRet = false;
 
@@ -68,17 +68,17 @@ bool InitializeAlarmSemaphore()
 }
 
 //******************************.AlarmSemaphoreWait.****************************
-//Purpose : main function.
-//Inputs  : lAlarmSemFlag - semaphore flag
+//Purpose : wrapper function for SemaphoreWait()
+//Inputs  : None
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool AlarmSemaphoreWait(sem_t *lAlarmSemFlag)
+bool AlarmSemaphoreWait()
 {
     bool blRet = false;
 
-    if(SemaphoreWait(lAlarmSemFlag) == 0)
+    if(SemaphoreWait() == 0)
     {
         blRet = true;
     }
@@ -87,17 +87,17 @@ bool AlarmSemaphoreWait(sem_t *lAlarmSemFlag)
 }
 
 //******************************.AlarmSemaphorePost.****************************
-//Purpose : main function.
-//Inputs  : lAlarmSemFlag - semaphore flag
+//Purpose : Wrapper function for SemaphorePost()
+//Inputs  : None
 //Outputs : None
 //Return  : Boolean value - Upon success it will return true , else false
 //Notes   : None
 //*
-bool AlarmSemaphorePost(sem_t *lAlarmSemFlag)
+bool AlarmSemaphorePost()
 {
     bool blRet = false;
 
-    if(SemaphorePost(lAlarmSemFlag) == 0)
+    if(SemaphorePost() == 0)
     {
         blRet = true;
     }

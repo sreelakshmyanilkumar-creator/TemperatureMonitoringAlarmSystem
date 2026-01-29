@@ -27,6 +27,6 @@
 
 //**************************** Forward Declarations ****************************
 void* TempReadThread(void* arg);
-bool ReadTemp(int8_t *pcTempValue);
+bool ReadTemp(uint8_t *pucTempValue);
 #endif //_TEMP_READ_H_
 //EOF

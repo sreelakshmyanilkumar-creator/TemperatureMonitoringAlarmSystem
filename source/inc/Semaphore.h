@@ -21,13 +21,12 @@
 //******************************* Global Types *********************************
 
 //***************************** Global Constants *******************************
-extern sem_t lAlarmSemFlag;
 
 //***************************** Global Variables *******************************
 
 //**************************** Forward Declarations ****************************
 bool SemaphoreInit();
-bool SemaphorePost(sem_t *lAlarmSemFlag);
-bool SemaphoreWait(sem_t *lAlarmSemFlag);
+bool SemaphorePost();
+bool SemaphoreWait();
 #endif //_SEMAPHORE_H_
 //EOF

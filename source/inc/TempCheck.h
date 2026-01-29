@@ -29,9 +29,9 @@
 //**************************** Forward Declarations ****************************
 void* TempCheckThread(void* arg);
 bool TempCheckMessageQueueCreate();
-bool TempCheckMessageQueueSend(int8_t *pcMsgQTempData, size_t lMsgQSize);
-bool TempCheckMessageQueueReceive(int8_t *pcMsgQTempData, size_t lMsgQSize);
-bool TempCheckForThresholds(int8_t *pcMsgQTempData, 
+bool TempCheckMessageQueueSend(uint8_t *pucMsgQTempData, size_t lMsgQSize);
+bool TempCheckMessageQueueReceive(uint8_t *pucMsgQTempData, size_t lMsgQSize);
+bool TempCheckForThresholds(uint8_t *pucMsgQTempData, 
                             uint8_t *psucThresholdBreachCount);
 #endif //_TEMP_CHECK_H_
 //EOF

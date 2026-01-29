@@ -32,6 +32,6 @@
 //***************************** Global Variables *******************************
 
 //**************************** Forward Declarations ****************************
-bool SensorRead(int8_t *pcTempValue);
+bool SensorRead(uint8_t *pucTempValue);
 #endif //_SENSOR_H_
 //EOF
